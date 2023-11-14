@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/dom.js":
+/*!********************!*\
+  !*** ./src/dom.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   displayWeatherUI: () => (/* binding */ displayWeatherUI)\n/* harmony export */ });\nfunction displayWeatherUI(weather){\n    const location = document.querySelector(\".location\");\n    location.textContent = `${weather.city},${weather.country}`;\n\n    const icon = document.querySelector(\".icon\");\n    icon.src = weather.weatherIcon;\n\n    const currentTemp =  document.querySelector(\".current-temp\");\n    currentTemp.textContent = `${weather.todayTemp}ºC`;\n\n    const weatherText = document.querySelector(\".weather-text\");\n    weatherText.textContent = weather.weatherText;\n\n    const feelsLike = document.querySelector(\".feels-like\");\n    feelsLike.textContent = `Feels ${weather.todayFeels}ºC`;\n\n    const humidity = document.querySelector(\"#humidity\");\n    humidity.textContent = `${weather.humidity}%`;\n\n    const windSpeed = document.querySelector(\"#wind-speed\");\n    windSpeed.textContent = `${weather.windSpeed}km/h`;\n\n    const uv = document.querySelector(\"#uv\");\n    uv.textContent = weather.uv;\n}\n\n\n//# sourceURL=webpack://weather-app/./src/dom.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _weather__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./weather */ \"./src/weather.js\");\n\n\nconst searchBtn = document.querySelector(\"#search-btn\")\n\nsearchBtn.addEventListener('click', _weather__WEBPACK_IMPORTED_MODULE_0__.getWeatherData)\n\n\n\n\n\n/*API KEY = 4229da1fa8634657a15151120230811*/ \n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _weather__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./weather */ \"./src/weather.js\");\n\n\nfunction getLocation(){\n    const locationInput = document.querySelector(\"#location-input\");\n    const location = locationInput.value\n    ;(0,_weather__WEBPACK_IMPORTED_MODULE_0__.getWeatherData)(location)\n    locationInput.value = \"\";\n}\n\nconst searchBtn = document.querySelector(\"#search-btn\")\nsearchBtn.addEventListener('click', getLocation)\n\n;(0,_weather__WEBPACK_IMPORTED_MODULE_0__.getWeatherData)(\"lisboa\")\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
 
 /***/ }),
 
@@ -26,7 +36,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _wea
   \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getWeatherData: () => (/* binding */ getWeatherData)\n/* harmony export */ });\nasync function getWeatherData() {\n    const locationInput = document.querySelector(\"#location-input\");\n    const location = locationInput.value\n    try {\n        const weatherData = await fetch(`https://api.weatherapi.com/v1/current.json?key=4229da1fa8634657a15151120230811&q=${location}&aqi=no`);\n        const weather = await weatherData.json();\n        const processedWeather = processWeather(weather);\n        displayWeatherUI(processedWeather);\n    } catch (error) {\n        console.error(\"Error fetching weather data:\", error);\n    }\n    locationInput.value = \"\";\n}\n\nfunction processWeather(weather) {\n    return {\n        country: weather.location.country,\n        city: weather.location.name,\n        todayTemp: weather.current.temp_c,\n        humidity: weather.current.humidity,\n        todayFeels: weather.current.feelslike_c,\n        precip: weather.current.precip_mm,\n        windSpeed: weather.current.wind_kph\n    }    \n}\n\n\n\n\n\n\n//# sourceURL=webpack://weather-app/./src/weather.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getWeatherData: () => (/* binding */ getWeatherData)\n/* harmony export */ });\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ \"./src/dom.js\");\n\n\nasync function getWeatherData(location) {\n    try {\n        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=4229da1fa8634657a15151120230811&q=${location}&aqi=no`);\n        const weather = await response.json();\n        const processedWeather = processWeather(weather);\n        (0,_dom__WEBPACK_IMPORTED_MODULE_0__.displayWeatherUI)(processedWeather);\n    } catch (error) {\n        console.error(\"Error fetching weather data:\", error);\n    }\n}\n\nfunction processWeather(weather) {\n    return {\n        country: weather.location.country,\n        city: weather.location.name,\n        weatherText: weather.current.condition.text,\n        weatherIcon: weather.current.condition.icon,\n        todayTemp: weather.current.temp_c,\n        humidity: weather.current.humidity,\n        todayFeels: weather.current.feelslike_c,\n        windSpeed: weather.current.wind_kph,\n        maxTemp: weather.forecast.forecastday[0].day.maxtemp_c,\n        minTemp: weather.forecast.forecastday[0].day.mintemp_c,\n        uv: weather.forecast.forecastday[0].day.uv\n    }    \n}\n\n\n\n\n\n\n//# sourceURL=webpack://weather-app/./src/weather.js?");
 
 /***/ })
 

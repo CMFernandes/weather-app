@@ -10,11 +10,41 @@
 </head>
 <body>
     <div class="header">
+        <img src="cloudy.png">
         <h1>Weather App</h1>
     </div>
-    <div class="content">
+    <div class="search-cont">
+        <div class="location"></div>
+        <div>
         <input type="text" id="location-input" placeholder="Search a city...">
         <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="left-cont">
+            <div class="left-top-cont">
+                <img class="icon"></img>
+                <div class="current-temp"></div>
+            </div>
+            <div class="left-bott-cont">
+                <div class="weather-text"></div>
+                <div class="feels-like"></div>
+            </div>
+        </div>
+        <div class="right-cont">
+            <div class="weather-info">
+                <div>Humidity</div>
+                <div id="humidity"></div>
+            </div>
+            <div class="weather-info">
+                <div>Wind Speed</div>
+                <div id="wind-speed"></div>
+            </div>
+            <div class="weather-info">
+                <div>UV</div>
+                <div id="uv"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
